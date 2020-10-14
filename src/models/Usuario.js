@@ -1,6 +1,7 @@
 const { Sequelize } = require("sequelize");
+const { Model, DataTypes } = require('sequelize');
 
-const {Model, DataTypes} = require('sequelize');
+const jwt = require('jsonwebtoken');
 
 class Usuario extends Model { //criando model no bd, representa tabela no projeto 
 
@@ -17,6 +18,12 @@ class Usuario extends Model { //criando model no bd, representa tabela no projet
         }, {
             sequelize
         })
+    }
+
+    generateToken() {
+        return jwt.sign({ id: this.id }, 'secret', {
+            expiresIn: 86400
+        });
     }
 }
 
