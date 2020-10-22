@@ -6,6 +6,15 @@ class Foto extends Model {
         super.init({
             nome: DataTypes.STRING,
             diretorio: DataTypes.STRING,
+            url: {
+            type: DataTypes.VIRTUAL,
+            get() {
+                if (this.getDataValue('nome'))
+                    return `http://localhost:3333/files/${this.getDataValue('nome')}`;
+                else
+                    return null;
+        },
+      },
         }, {
             sequelize
         })

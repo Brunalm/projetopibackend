@@ -13,6 +13,20 @@ module.exports = {
 
         return res.json(products);
     }, 
+    async show(req, res) {
+        const {
+            id
+        } = req.params;
+        const produto = await Produto.findByPk(id, {
+            include:[{
+                model: Foto,
+                as: 'fotos'
+            }]
+        });
+
+        return res.json(produto);
+    },
+
     async store(req, res) {
         console.log(req.body);
         const {

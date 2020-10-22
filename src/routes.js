@@ -21,6 +21,7 @@ routes.get('/home', (req, res) => {
 routes.post('/login', LoginController.store); //store metodo
 routes.get('/produtos', ProdutoController.index); //get para listagem - index metodo
 routes.post('/produtos', upload.array('photos'), ProdutoController.store);
+routes.get('/produtos/:id', ProdutoController.show);
 
 routes.post('/usuarios', UsuarioController.store);
 
