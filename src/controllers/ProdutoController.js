@@ -1,24 +1,25 @@
 const Produto = require("../models/Produto");
 const Foto = require("../models/Foto");
+const Usuario = require("../models/Usuario");
 
 module.exports = {
 
     async index(req, res) {
         const products = await Produto.findAll({
-            include:[{
+            include: [{
                 model: Foto,
                 as: 'fotos'
             }]
         });
 
         return res.json(products);
-    }, 
+    },
     async show(req, res) {
         const {
             id
         } = req.params;
         const produto = await Produto.findByPk(id, {
-            include:[{
+            include: [{
                 model: Foto,
                 as: 'fotos'
             }]
@@ -28,14 +29,24 @@ module.exports = {
     },
 
     async store(req, res) {
-        console.log(req.body);
+        const { id: userId } = req.userId;
         const {
             nome,
             descricao,
             cor,
             tamanho,
-            preco 
-        } = req.body; //acessando váriavel .nome variavel que foi passada no insomnia 
+            preco
+        } = req.body; //acessando váriavel .nome variavel que foi passada no insomnia
+
+        const usuario = await Usuario.findByPk(userId);
+
+        if (!usuario) {
+            return res.status(400).json('Usuário não logado!');
+        }
+
+        if (usuario.categoria !== 'admin') {
+            return res.status(401).json('Usuário sem permissão de cadastro de produto');
+        }
 
         const fotos = req.files;
 
@@ -51,7 +62,7 @@ module.exports = {
 
         //loop que percorre array de objetos
         for (const foto of fotos) {
-        const photo = await produto.createFoto({
+            const photo = await produto.createFoto({
                 nome: foto.filename,
                 diretorio: foto.path
             });

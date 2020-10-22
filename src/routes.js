@@ -2,6 +2,8 @@ const { Router } = require('express');
 const multer = require('multer');
 const uploadConfig = require('./config/upload');
 
+const authMiddleware = require('./middlewares/auth');
+
 const LoginController = require("./controllers/LoginController");
 const ProdutoController = require("./controllers/ProdutoController");
 const UsuarioController = require("./controllers/UsuarioController");
@@ -19,10 +21,13 @@ routes.get('/home', (req, res) => {
 });
 
 routes.post('/login', LoginController.store); //store metodo
+
 routes.get('/produtos', ProdutoController.index); //get para listagem - index metodo
-routes.post('/produtos', upload.array('photos'), ProdutoController.store);
 routes.get('/produtos/:id', ProdutoController.show);
 
 routes.post('/usuarios', UsuarioController.store);
+
+routes.use(authMiddleware);
+routes.post('/produtos', upload.array('photos'), ProdutoController.store);
 
 module.exports = routes;
