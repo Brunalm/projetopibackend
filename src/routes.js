@@ -28,6 +28,6 @@ routes.get('/produtos/:id', ProdutoController.show);
 routes.post('/usuarios', UsuarioController.store);
 
 routes.use(authMiddleware);
-routes.post('/produtos', upload.array('photos'), ProdutoController.store);
+routes.post('/produtos', upload.any(), ProdutoController.store); //any aceita tudo
 
 module.exports = routes;

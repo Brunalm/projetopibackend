@@ -60,6 +60,8 @@ module.exports = {
             preco,
         });
 
+        console.log(fotos);
+        
         //loop que percorre array de objetos
         for (const foto of fotos) {
             const photo = await produto.createFoto({
