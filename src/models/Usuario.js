@@ -20,6 +20,14 @@ class Usuario extends Model { //criando model no bd, representa tabela no projet
         })
     }
 
+    //associando pedido com usuário 
+    static associate(models) {
+        this.hasMany(models.Pedido, {
+            foreignKey: 'user_id',
+            as: 'pedidos'
+        })
+    }
+
     generateToken() {
         return jwt.sign({ id: this.id }, 'secret', {
             expiresIn: 86400

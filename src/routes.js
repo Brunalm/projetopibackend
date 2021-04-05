@@ -7,6 +7,7 @@ const authMiddleware = require('./middlewares/auth');
 const LoginController = require("./controllers/LoginController");
 const ProdutoController = require("./controllers/ProdutoController");
 const UsuarioController = require("./controllers/UsuarioController");
+const PedidoController = require("./controllers/PedidoController");
 
 const routes = Router();
 
@@ -29,5 +30,7 @@ routes.post('/usuarios', UsuarioController.store);
 
 routes.use(authMiddleware);
 routes.post('/produtos', upload.any(), ProdutoController.store); //any aceita tudo
+
+routes.post('/pedidos', PedidoController.store); 
 
 module.exports = routes;

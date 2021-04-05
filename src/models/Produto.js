@@ -19,6 +19,12 @@ class Produto extends Model {
         this.hasMany(models.Foto, {
             foreignKey: 'produto_id',
             as: 'fotos'
+        });
+
+        this.belongsToMany(models.Pedido, {
+            foreignKey: 'produto_id',
+            through: 'pedidos_produtos',
+            as: 'pedidos'
         })
     }
 }
